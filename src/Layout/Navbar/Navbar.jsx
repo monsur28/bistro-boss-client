@@ -18,13 +18,13 @@ const Navbar = () => {
         <NavLink to="/ourmenu">Our Menu</NavLink>
       </li>
       <li>
-        <NavLink to="/ourshop">Our Shop</NavLink>
+        <NavLink to="/ourshop/salad">Our Shop</NavLink>
       </li>
     </>
   );
   return (
     <>
-      <div className="navbar fixed z-10 bg-[#15151580] bg-opacity-30 max-w-screen-xl text-white inter text-xl font-extrabold">
+      <div className="navbar max-h-min fixed z-10 bg-[#15151580]/20 bg-opacity-10 max-w-screen-xl text-white inter text-xl font-extrabold">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -67,7 +67,7 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <div tabIndex={0} role="button" className="avatar">
+          <div tabIndex={0} role="button" className="avatar lg:block hidden">
             <div className="w-10 rounded-full">
               <img alt="Tailwind CSS Navbar component" src={user} />
             </div>
