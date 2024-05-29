@@ -1,8 +1,36 @@
-import { NavLink } from "react-router-dom";
-import cart from "../../assets/icon/151-1511569_cart-notifications-free-shopping-cart-favicon-hd-png-removebg-preview.png";
-import user from "../../assets/icon/user.jpg";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { FaCartShopping } from "react-icons/fa6";
+import userImg from "../../assets/icon/user.jpg";
+import { useContext } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import useCart from "../../Hooks/useCart";
+const MySwal = withReactContent(Swal);
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [cart] = useCart();
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        MySwal.fire({
+          title: "Good job!",
+          text: "LogOut Succesfully",
+          icon: "success",
+        });
+        navigate("/login");
+      })
+      .catch((error) => {
+        MySwal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.message}`,
+        });
+      });
+  };
   const navlinks = (
     <>
       <li>
@@ -45,32 +73,61 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black"
             >
               {navlinks}
             </ul>
           </div>
-          <a href="/" className="cinzel ">
-            <span className="text-[32px] font-black ">BISTRO BOSS</span> <br />
-            <span className="text-2xl font-bold tracking-[9px]">
-              Restaurant
-            </span>
-          </a>
+          <div className="flex justify-between">
+            <a href="/" className="cinzel ">
+              <span className="text-[32px] font-black ">BISTRO BOSS</span>{" "}
+              <br />
+              <span className="text-2xl font-bold tracking-[9px]">
+                Restaurant
+              </span>
+            </a>
+          </div>
+          <Link to="/dashboard/cart">
+            <button className="btn  lg:hidden bg-transparent text-white border-none hover:bg-transparent hover:border-solid">
+              <FaCartShopping className="text-xl" />
+              <div className="badge badge-secondary">+{cart.length}</div>
+            </button>
+          </Link>
         </div>
         <div className="navbar-center">
-          <div className=" hidden lg:flex">
+          <div className=" hidden lg:flex justify-center items-center">
             <ul className="menu menu-horizontal px-1">{navlinks}</ul>
-            <img src={cart} alt="" className="w-[60px] h-[55px]" />
+            <Link to="/dashboard/cart">
+              <button className="btn bg-transparent text-white border-none hover:bg-transparent hover:border-solid">
+                <FaCartShopping className="text-xl" />
+                <div className="badge badge-secondary">+{cart.length}</div>
+              </button>
+            </Link>
             <ul className="menu menu-horizontal px-1">
               <li className="li">
-                <NavLink to="/login">Sign In</NavLink>
+                {user ? (
+                  <button
+                    onClick={handleLogOut}
+                    className="btn bg-transparent text-white"
+                  >
+                    LogOut
+                  </button>
+                ) : (
+                  <NavLink to="/login">Log In</NavLink>
+                )}
               </li>
             </ul>
           </div>
           <div tabIndex={0} role="button" className="avatar lg:block hidden">
-            <div className="w-10 rounded-full">
-              <img alt="Tailwind CSS Navbar component" src={user} />
-            </div>
+            {user ? (
+              <div className="w-10 rounded-full">
+                <img alt="Tailwind CSS Navbar component" src={user.photoURL} />
+              </div>
+            ) : (
+              <div className="w-10 rounded-full">
+                <img alt="Tailwind CSS Navbar component" src={userImg} />
+              </div>
+            )}
           </div>
         </div>
       </div>

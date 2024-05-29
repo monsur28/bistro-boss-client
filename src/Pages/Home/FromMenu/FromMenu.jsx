@@ -1,6 +1,7 @@
 import SectionTitle from "../../../Layout/Shared/SectionTitle";
 import MenuItem from "../../../Layout/Shared/MenuItem";
 import useMenu from "../../../Hooks/useMenu";
+import { Link } from "react-router-dom";
 
 const FromMenu = () => {
   const [menu] = useMenu();
@@ -26,12 +27,14 @@ const FromMenu = () => {
         ))}
       </div>
       <div className="flex justify-center items-center mt-16">
-        <button
-          style={{ borderBottom: "3px solid #1F2937" }}
-          className="btn py-5 px-8 text-[#1F2937]"
-        >
-          View Full Menu
-        </button>
+        <Link to="/ourmenu">
+          <button
+            style={{ borderBottom: "3px solid #1F2937" }}
+            className="btn py-5 px-8 text-[#1F2937]"
+          >
+            View Full Menu
+          </button>
+        </Link>
       </div>
     </section>
   );
